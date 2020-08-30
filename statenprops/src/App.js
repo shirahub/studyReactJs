@@ -6,6 +6,7 @@ import { Header, Footer } from "./template/index"
 import {Test} from "./pages/Test"
 import { LoginSuccess } from './pages/Login';
 import { Logout  } from './pages/Logout';
+import { MyHome  } from './pages/MyHome';
 
 
 
@@ -16,7 +17,14 @@ class App extends Component {
     this.state = {
       datalist: [{"user":"shir", "pass":"leen"}],
       theUser: '',
+      pesanSaya: '',
     };
+  }
+
+  mengubahPesanSaya(pesan) {
+    this.setState({
+      pesanSaya: pesan
+    })
   }
 
   aUserHasLoggedOn = (user) => {
@@ -46,13 +54,16 @@ class App extends Component {
 
 
   render() {
-    
+    console.log("pesansaya: " + this.state.pesanSaya)
     return (
       <Router>
         <div>
-          <Header theUser={this.state.theUser}></Header>
+          <Header theUser={this.state.theUser}  />
           {this.LoginSuccess()}
           <Switch>
+          <Route path="/" exact>
+              <MyHome data="ini data" mengubahPesanSaya={this.mengubahPesanSaya.bind(this)}></MyHome>
+            </Route>
             <Route path="/login">
               <Test theUser={this.state.theUser} datalist={this.state.datalist} aUserHasLoggedOn={this.aUserHasLoggedOn.bind(this)} newUserRegistration={this.newUserRegistration.bind(this)} />
             </Route>
