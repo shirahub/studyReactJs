@@ -111,7 +111,7 @@ export class Test extends Component {
         this.props.aUserHasLoggedOn(this.state.username)
 
 
-        return <Redirect to="/"></Redirect>
+        // return <Redirect to="/"></Redirect>
 
     }
 

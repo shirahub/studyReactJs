@@ -1,15 +1,15 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 
 
 class LogoutPage extends Component {
 
     render() {
-        const { history } = this.props;
-        sessionStorage.setItem("isUserOn", false);
-        history.push('/');
+        this.props.logout('')
         return (
-            window.location.reload(false)
-        );
+            <div>
+                Logout Success
+            </div>
+        )
     }
 }
 export default LogoutPage;

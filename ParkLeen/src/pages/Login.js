@@ -13,6 +13,7 @@ class LoginPage extends Component {
     constructor() {
         super();
         this.state = {
+            datalist: {"user":"shir", "pass":"leen"},
             username: '',
             password: '',
             error: '',
@@ -31,7 +32,7 @@ class LoginPage extends Component {
     handleSubmit(evt) {
         evt.preventDefault();
 
-        const { history } = this.props;
+        // const { history } = this.props;
 
         if (!this.state.username) {
             return this.setState({ error: 'Username is required' });
@@ -41,14 +42,11 @@ class LoginPage extends Component {
             return this.setState({ error: 'Password is required' });
         }
 
-        const user = localStorage.getItem('user')
-        const pass = localStorage.getItem('pass')
-
-        if (this.state.username === user && this.state.password === pass) {
+        if (this.state.username === this.state.datalist.user && this.state.password === this.state.datalist.pass) {
             
-            sessionStorage.setItem("isUserOn", true)
-            history.push('/admin');
-            window.location.reload(false)
+            this.props.login(this.state.username)
+            // history.push('/admin');
+            // window.location.reload(false)
         } else {
             return this.setState({error:'Username or Password invalid'})
         }

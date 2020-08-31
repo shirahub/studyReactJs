@@ -37,13 +37,6 @@ export class LoginPage extends Component {
         });
       }
 
-    //   updateState = () => {
-    //     console.log('changing state');
-    //      this.setState({
-    //        x: 2
-    //      },() => { console.log('new state', this.state); })
-    //    }
-
     dismissError() {
         this.setState({ error: '' });
     }
@@ -86,7 +79,7 @@ export class LoginPage extends Component {
                 sessionStorage.setItem("isUserOn", true)
                 sessionStorage.setItem("theUser", users[i].user)
                 sessionStorage.setItem("theRole", "hrd")
-                history.push('/hrd');
+                history.push('/');
                 window.location.reload(false)
                 } else  {
                   this.setState({error:'Username or Password invalid'})

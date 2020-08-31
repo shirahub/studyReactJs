@@ -9,9 +9,17 @@ export class Home extends Component {
 
         if (isEmployee === "hrd") {
             return (
-                <div>
+                <div style={{textAlign:"center"}}>
                     <div className="login-container"></div>
+                    <div>
             <button className="button" ><span><Link to="/hrd"><h3>Assign Divisi</h3></Link></span></button>
+            </div>
+            <div>
+            <button className="button" ><span><Link to="/hrd/addemployee"><h3>Tambah employee</h3></Link></span></button>
+            </div>
+            <div>
+            <button className="button" ><span><Link to="/hrd/adddivision"><h3>Tambah divisi</h3></Link></span></button>
+            </div>
                 </div>
             )
         } else if (isEmployee === "employee") {

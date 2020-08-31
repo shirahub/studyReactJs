@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import { Header, Footer } from './template';
-import { Error, Home, LoginPage, Employee, Hrd, LogoutPage } from './pages/index';
+import { Error, Home, LoginPage, Employee, Hrd, LogoutPage, AddEmployee, AddDivision } from './pages/index';
 import './App.css';
 
 function App() {
@@ -15,7 +15,13 @@ function App() {
           <Route path="/login" component={LoginPage} />
           <Route path="/logout" component={LogoutPage} />
           <Route path="/employee" component={Employee} />
-          <Route path="/hrd" component={Hrd} />
+          <Route path="/hrd/addemployee">
+            <AddEmployee></AddEmployee>
+          </Route>
+          <Route path="/hrd/adddivision">
+            <AddDivision></AddDivision>
+          </Route>
+          <Route path="/hrd" component={Hrd} exact />
           <Route path="/" component={Home} exact />
           <Route component={Error} />
         </Switch>

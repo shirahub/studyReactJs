@@ -4,6 +4,7 @@ export default class ParkirMasuk extends Component {
     constructor() {
         super();
         this.state = {
+            parklist: [{"id":"0PFPH","car":"motor","number":"3333","status":"in","timein":"2020-08-27T11:37:49.437Z","timeout":""},{"id":"NCQFI","car":"bus","number":"6777","status":"in","timein":"2020-08-27T11:39:11.615Z","timeout":""},{"id":"MZCP4","car":"motor","number":"777","status":"out","timein":"2020-08-27T11:42:09.108Z","timeout":"2020-08-27T11:42:15.747Z"},{"id":"T6ZID","car":"mobil","number":"B9999","status":"out","timein":"2020-08-27T12:15:23.478Z","timeout":"2020-08-27T12:15:36.422Z"}],
             id: '',
             car: '',
             number: '',
@@ -20,7 +21,7 @@ export default class ParkirMasuk extends Component {
     }
 
     renderTableData() {
-        var parkers = JSON.parse(localStorage.getItem("parker"))
+        var parkers = this.state.parklist
         return parkers.map((parker, index) => {
             const { id, car, number, status, timein, timeout } = parker
             return (
@@ -29,8 +30,8 @@ export default class ParkirMasuk extends Component {
                         <td>{car}</td>
                         <td>{number}</td>
                         <td>{status}</td>
-                        <td>{timein}</td>
-                        <td>{timeout}</td>
+                        <td>{timein.replace(/"/g,'')}</td>
+                        <td>{timeout.replace(/"/g,'')}</td>
                     </tr>
             )
         })
@@ -69,6 +70,12 @@ export default class ParkirMasuk extends Component {
         this.setState({ message2: '' });
     }
 
+    updateParkList(parklist) {
+        this.setState( {
+            parklist: parklist
+        })
+    }
+
     handleSubmit(evt) {
         evt.preventDefault();
 
@@ -80,14 +87,16 @@ export default class ParkirMasuk extends Component {
             return this.setState({ message1: 'number is required' });
         }
        
-
-        var newParker = { id: (Math.random().toString(36).substr(2, 5)).toUpperCase(), car: this.state.car, number: this.state.number, status: "in", timein: new Date(), timeout: "" }
+        var a = JSON.stringify(new Date())
+        
+        var newParker = { "id": (Math.random().toString(36).substr(2, 5)).toUpperCase(), "car": this.state.car, "number": this.state.number, "status": "in", "timein": a, "timeout": "" }
         // var timeString = newParker.timein.getDate() + "-" + newParker.timein.getMonth() + "-" + newParker.timein.getFullYear() + " " +
         //     + newParker.timein.getHours() + ":" + newParker.timein.getMinutes() + ":" + newParker.timein.getSeconds()
 
-        var parkers = JSON.parse(localStorage.getItem("parker"))
+        var parkers = this.state.parklist
         parkers.push(newParker)
-        localStorage.setItem("parker", JSON.stringify(parkers))
+
+        this.updateParkList(parkers)
         
         return this.setState({message1: "ok"})
 
@@ -114,24 +123,22 @@ export default class ParkirMasuk extends Component {
     handleSubmitOut(evt) {
         evt.preventDefault();
 
-        var parkers = JSON.parse(localStorage.getItem("parker"))
-        console.log(parkers)
-        console.log(this.state.id)
+        var parkers = this.state.parklist
        
         for (var i = 0; i<parkers.length ; i++) {
             if (parkers[i].id === this.state.id) {
 
                 var timeOut = new Date()
-                var timeIn = Date.parse(parkers[i].timein)
+                console.log(parkers[i].timein.replace(/"/g,''))
+                var timeIn = Date.parse(parkers[i].timein.replace(/"/g,''))
                 console.log(timeIn)
                 var diff = timeOut-timeIn
-                console.log(diff)
                 var hh = Math.ceil(diff / 1000 / 60 / 60)
 
                 parkers[i].status = "out"
-                parkers[i].timeout = timeOut
+                parkers[i].timeout = JSON.stringify(timeOut)
 
-                localStorage.setItem("parker", JSON.stringify(parkers))
+                this.updateParkList(parkers)
                 
                 if (parkers[i].car === "mobil") {
                     return this.setState({message2: (5000*hh)})    
@@ -151,13 +158,13 @@ export default class ParkirMasuk extends Component {
 
     render() {
 
-        if ((sessionStorage.getItem("isUserOn")) === "false") {
-            const { history } = this.props;
-            history.push('/');
-        return (
-            window.location.reload(false)
-        )
-        }
+        // if ((sessionStorage.getItem("isUserOn")) === "false") {
+        //     const { history } = this.props;
+        //     history.push('/');
+        // return (
+        //     window.location.reload(false)
+        // )
+        // }
             
 
         return (
