@@ -1,4 +1,7 @@
 import { combineReducers } from "redux"
+import Firebase from '../config';
+import { FirebaseContext } from '../config';
+
 
 const loginInfo = {
     isLogin: false,
@@ -7,8 +10,11 @@ const loginInfo = {
     role: ''
 }
 
+var a = new Firebase()
+
 const employee = {
-    employeeList: localStorage.getItem("employee")
+    // employeeList: localStorage.getItem("employee")
+    employeeList: a.getAllUser()
 }
 const admin = {
     admin: { "user": "shir", "pass": "leen", "id": "1" }
@@ -31,6 +37,7 @@ const authReducer = (state = loginInfo, action) => {
                 role: action.role
             }
         default:
+
             return state;
     }
 };
@@ -42,10 +49,13 @@ const adminReducer = (state = admin) => {
 const employeeReducer = (state = employee, action) => {
     switch (action.type) {
         case "NEW":
-            var newEmployee = {id:'', user: '', pass:'', name:action.name, motto: action.motto,photo:action.photo,github:action.github}
-            var employees = JSON.parse(employee.employeeList)
-            employees.push(newEmployee)
-            localStorage.setItem("employee", JSON.stringify(employees))
+            saveRegFirebase(action.name, action.email, action.password, action.github, action.phone, action.motto, action.photo)
+            return state;
+        case "EDIT":
+            editFirebase(action.name, action.email, action.github, action.phone, action.motto, action.photo)
+            return state;
+        case "DELETE":
+            deleteFirebase(action.email)
         default:
             return state;
     }
@@ -59,5 +69,37 @@ const allReducers = combineReducers({
 
 export default allReducers
 
+const editFirebase = (name, email, github, phone, motto, photo) => {
+    a.editFirebaseUser(name, email, github, phone, motto, photo)
+        .then(user => {
+            console.info(user)
+        })
+        .catch(err => {
+            alert(err.message)
+        })
+}
 
+const deleteFirebase = (email) => {
+    a.deleteFirebaseUser(email)
+}
 
+const saveRegFirebase = (name, email, password, github, phone, motto, photo) => {
+    a.registerFirebaseUser(email, password)
+        .then(user => {
+            console.info(user)
+            a.insertNewUser(name, email, github, phone, motto, photo)
+        })
+        .catch(err => {
+            alert(err.message)
+        })
+}
+
+// saveUserFirebase =(name, email, github, phone, motto, photo) => {
+//     a.insertNewUser(name, email, github, phone, motto, photo)
+//     .then(user => {
+//         console.info(user)
+//     })
+//     .catch(err => {
+//         alert(err.message)
+//     })
+// }

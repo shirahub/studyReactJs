@@ -9,16 +9,16 @@ import Header from './Header';
 import Login from '../pages/Login';
 import Logout from '../pages/Logout';
 import Home from '../pages/Home';
-import SeeAllEmployee from '../pages/SeeAllEmployee';
+import Register from '../pages/SeeAllEmployee';
 import { FirebaseContext } from '../config';
 
 let App = ({info}) => (
   <div >
     <Router>
       {userOn(info.isLogin)}
-      <FirebaseContext.Consumer>
+      {/* <FirebaseContext.Consumer>
         {checkFirebase()}
-      </FirebaseContext.Consumer>
+      </FirebaseContext.Consumer> */}
           <Header />
           <Switch>
           <Route path="/" exact>
@@ -31,7 +31,7 @@ let App = ({info}) => (
               <Logout></Logout>
             </Route>
             <Route path="/seeallemployee">
-              <SeeAllEmployee></SeeAllEmployee>
+              <Register></Register>
             </Route>
           </Switch>
           <Footer />
