@@ -102,24 +102,6 @@ class Firebase {
         })
     }
 
-    // adminRegisterFirebaseUser = (email, password, name, phone, photo) => {
-    //     return this.defaultAuth.createUser({
-    //         email: email,
-    //         emailVerified: false,
-    //         phoneNumber: phone,
-    //         password: password,
-    //         displayName: name,
-    //         photoURL: photo,
-    //         disabled: false
-    //         })
-    //         .then(function(userRecord) {
-    //           // See the UserRecord reference doc for the contents of userRecord.
-    //           console.log('Successfully created new user:', userRecord.uid);
-    //         })
-    //         .catch(function(error) {
-    //           console.log('Error creating new user:', error);
-    //         });
-    // }
 
 }
 
